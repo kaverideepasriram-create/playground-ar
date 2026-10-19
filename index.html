@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeoPlay AR | Interactive Playground</title>
+
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #24304a;
+      background: linear-gradient(135deg, #e5f5ff, #f5e9ff, #fff0f5);
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 28px 16px 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 48px);
+      color: #6246a8;
+    }
+
+    header p {
+      margin: 10px auto;
+      max-width: 600px;
+      line-height: 1.6;
+    }
+
+    .viewer {
+      max-width: 1100px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: min(65vh, 580px);
+      min-height: 350px;
+      background: linear-gradient(180deg, #ffffff, #eaf6ff);
+      border: 3px solid white;
+      border-radius: 24px;
+      box-shadow: 0 12px 35px #6650a533;
+      --poster-color: transparent;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    button {
+      border: 0;
+      border-radius: 24px;
+      padding: 13px 22px;
+      background: #7253c7;
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover { background: #5238a1; }
+
+    .info {
+      max-width: 1000px;
+      margin: 25px auto;
+      padding: 0 18px 35px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: #ffffffd9;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 5px 18px #4e477515;
+    }
+
+    .card h2 { color: #6246a8; font-size: 20px; }
+    .card p { line-height: 1.6; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #ffffff88;
+    }
+
+    #status {
+      text-align: center;
+      padding: 8px;
+      color: #4c3c78;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>NeoPlay AR</h1>
+    <p>
+      Explore our colourful 3D playground, designed using mathematics,
+      geometry and creative architecture.
+    </p>
+  </header>
+
+  <main>
+    <section class="viewer">
+      <model-viewer
+        id="playground"
+        src="./Mighty%20Elzing-Bojo%20(3).glb"
+        alt="Colourful 3D model of our mathematics playground"
+        camera-controls
+        auto-rotate
+        rotation-per-second="15deg"
+        shadow-intensity="1"
+        exposure="1"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        ar-placement="floor"
+        environment-image="neutral"
+        loading="eager">
+
+        <button slot="ar-button"
+          style="position:absolute;bottom:16px;right:16px;">
+          View in your space
+        </button>
+      </model-viewer>
+
+      <p id="status">Loading your playground...</p>
+
+      <div class="controls">
+        <button onclick="document.getElementById('playground').resetTurntableRotation()">
+          Reset View
+        </button>
+        <button onclick="document.getElementById('playground').cameraOrbit='0deg 75deg auto'">
+          Front View
+        </button>
+        <button onclick="document.getElementById('playground').cameraOrbit='45deg 65deg auto'">
+          Top View
+        </button>
+      </div>
+    </section>
+
+    <section class="info">
+      <article class="card">
+        <h2>Geometry in Action</h2>
+        <p>Discover circles, rectangles, cylinders, triangles and other
+        2D and 3D shapes throughout our playground.</p>
+      </article>
+
+      <article class="card">
+        <h2>Angles and Measurements</h2>
+        <p>Explore angles, lengths, area, perimeter and how measurements
+        help us design useful spaces.</p>
+      </article>
+
+      <article class="card">
+        <h2>Mathematics Meets Architecture</h2>
+        <p>See how mathematical ideas help us create a playground that
+        is organised, practical and fun.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    Grade 7 Mathematics Project · Explore, Rotate and Discover
+  </footer>
+
+  <script>
+    const model = document.getElementById('playground');
+    const status = document.getElementById('status');
+
+    model.addEventListener('load', () => {
+      status.textContent = 'Your colourful playground is ready!';
+    });
+
+    model.addEventListener('error', () => {
+      status.textContent =
+        'The model could not load. Please check the GLB filename.';
+    });
+  </script>
+</body>
+</html>
+
